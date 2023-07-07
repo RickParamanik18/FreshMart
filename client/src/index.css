@@ -1,0 +1,11 @@
+:root {
+    --dark-pastel-green: #01b636;
+    --ufo-green: #3bd16f;
+    --medium-aquamarine: #74e39a;
+    --platinum: #e3e3e3;
+    --spanish-gray: #989898;
+}
+* {
+    margin: 0px;
+    padding: 0px;
+}
