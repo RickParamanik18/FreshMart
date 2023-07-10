@@ -1,7 +1,7 @@
-import { Nav } from "../../components/nav/Nav";
+import { Banner } from "../../components/banner/Banner";
 
 export const Homepage = () => {
     return <>
-        <Nav/>
+        <Banner/>
     </>;
 };
