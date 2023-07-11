@@ -1,8 +1,6 @@
 import { Container, Typography } from "@mui/material";
 import { ProductCard } from "./productCard/ProductCard";
-import { SliderBox, StyledArrowIcon, StyledBox } from "./style";
-import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeftOutlined";
-import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
+import { SliderBox, StyledBox } from "./style";
 
 import subCategoryProducts from "../../data/subCategoryProducts";
 
