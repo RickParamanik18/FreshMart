@@ -49,6 +49,10 @@ export const SpecificProduct = () => {
         setQuantity(currentProduct.item_variant?.[0]?.price);
     }, []);
 
+    const quantityCahngeHandler = (e) => {
+        setQuantity(+e.target.value);
+    };
+
     return (
         <>
             <Container>
@@ -118,6 +122,7 @@ export const SpecificProduct = () => {
                                 select
                                 value={quantity}
                                 helperText="Please select product amount"
+                                onChange={quantityCahngeHandler}
                             >
                                 {currentProduct.item_variant
                                     ? currentProduct.item_variant.map(
@@ -150,12 +155,7 @@ export const SpecificProduct = () => {
                             py={1}
                             borderRadius={1}
                         >
-                            {`Total Price is Rs. ${
-                                currentProduct.item_variant
-                                    ? currentProduct.item_variant?.[0]?.price *
-                                      units
-                                    : ""
-                            }`}
+                            {`Total Price is Rs. ${quantity * units}`}
                         </Typography>
                         <Box my={5}>
                             <Button
