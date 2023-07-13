@@ -17,11 +17,11 @@ import { StyledGrid, StyledPaper } from "./style";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 
 export const Nav = () => {
-    const navigate =useNavigate()
+    const navigate = useNavigate();
     const [userOptionsVisibility, setUserOptionsVisibility] = useState(false);
 
     const toggleUserOptions = (val) => {
@@ -40,7 +40,13 @@ export const Nav = () => {
                     alignItems={"center"}
                     justifyContent={"center"}
                 >
-                    <Box component={"img"} src={logo} height={"50px"} onClick={()=>navigate('/')} sx={{cursor:"pointer"}}></Box>
+                    <Box
+                        component={"img"}
+                        src={logo}
+                        height={"50px"}
+                        onClick={() => navigate("/")}
+                        sx={{ cursor: "pointer" }}
+                    ></Box>
                 </Grid>
                 <Grid
                     item
@@ -83,7 +89,7 @@ export const Nav = () => {
                     justifyContent={"end"}
                 >
                     {/* isLargeDevice */}
-                    {true ? (
+                    {window.document.body.clientWidth >= 600 ? (
                         <>
                             <Tooltip title="My Wishlist">
                                 <Badge
