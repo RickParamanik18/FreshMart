@@ -15,7 +15,7 @@ import ReactImageMagnify from "react-image-magnify";
 import nonVegIcon from "../../../public/non-veg.png";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import nothingFoundPic from "../../../public/nothing-found.png";
-import subCategoryProducts from "../../data/subCategoryProducts";
+import { getAllProducts } from "../../services/product.service";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
 import { ProductCardSlider } from "../../components/productCategorySlider/ProductCategorySlider";
@@ -40,13 +40,15 @@ export const SpecificProduct = () => {
 
     //to set current product related details
     useEffect(() => {
-        const currentProduct = subCategoryProducts.reduce(
-            (accumulator, current) =>
-                current._id == urlId ? current : accumulator,
-            null
-        );
-        setCurrentProduct(currentProduct);
-        setQuantity(currentProduct.item_variant?.[0]?.price);
+        getAllProducts().then((data) => {
+            const currentProduct = data.reduce(
+                (accumulator, current) =>
+                    current._id == urlId ? current : accumulator,
+                null
+            );
+            setCurrentProduct(currentProduct);
+            setQuantity(currentProduct.item_variant?.[0]?.price);
+        });
     }, []);
 
     const quantityCahngeHandler = (e) => {

@@ -2,16 +2,23 @@ import { Box } from "@mui/material";
 import { Banner } from "../../components/banner/Banner";
 import { ProductCardSlider } from "../../components/productCategorySlider/ProductCategorySlider";
 
-import subCategories from "../../data/subCategories";
 import { useTheme } from "@emotion/react";
+import { useEffect, useState } from "react";
+import { getAllCategory } from "../../services/product.service";
 
 export const Homepage = () => {
     const theme = useTheme();
+    const [allCategory, setAllCategory] = useState([]);
+    useEffect(() => {
+        getAllCategory().then((data) => {
+            setAllCategory(data);
+        });
+    }, []);
 
     return (
         <>
             <Banner />
-            {subCategories.splice(0, 5).map((item, index) => (
+            {allCategory.splice(0, 5).map((item, index) => (
                 <Box
                     sx={{
                         background:

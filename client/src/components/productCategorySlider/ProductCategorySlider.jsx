@@ -2,9 +2,17 @@ import { Container, Typography } from "@mui/material";
 import { ProductCard } from "./productCard/ProductCard";
 import { SliderBox, StyledBox } from "./style";
 
-import subCategoryProducts from "../../data/subCategoryProducts";
+import { useEffect, useState } from "react";
+import { getAllProducts } from "../../services/product.service";
 
 export const ProductCardSlider = ({ categoryId, name }) => {
+    const [allProducts, setAllProducts] = useState([]);
+    useEffect(() => {
+        getAllProducts().then((data) => {
+            setAllProducts(data);
+        });
+    }, []);
+    
     return (
         <>
             <Container sx={{ padding: "18px 0px" }}>
@@ -17,7 +25,7 @@ export const ProductCardSlider = ({ categoryId, name }) => {
                 </Typography>
                 <SliderBox>
                     <StyledBox>
-                        {subCategoryProducts
+                        {allProducts
                             .filter(
                                 (item) => item.sub_category_id === categoryId
                             )
