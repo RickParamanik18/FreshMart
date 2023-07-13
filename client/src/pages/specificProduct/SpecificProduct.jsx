@@ -75,8 +75,12 @@ export const SpecificProduct = () => {
                                         src:
                                             currentProduct.image ||
                                             nothingFoundPic,
-                                        height: 2 * largeImgDim.height,
-                                        width: 2 * largeImgDim.width,
+                                        height: largeImgDim.height
+                                            ? 2 * largeImgDim.height
+                                            : 1000,
+                                        width: largeImgDim.width
+                                            ? 2 * largeImgDim.width
+                                            : 1000,
                                     },
                                     enlargedImageContainerStyle: {
                                         zIndex: 999,
