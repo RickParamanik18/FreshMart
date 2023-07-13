@@ -4,7 +4,6 @@ import { ProductCardSlider } from "../../components/productCategorySlider/Produc
 
 import subCategories from "../../data/subCategories";
 import { useTheme } from "@emotion/react";
-import { Footer } from "../../components/footer/Footer";
 
 export const Homepage = () => {
     const theme = useTheme();
@@ -12,7 +11,7 @@ export const Homepage = () => {
     return (
         <>
             <Banner />
-            {subCategories.splice(0,5).map((item, index) => (
+            {subCategories.splice(0, 5).map((item, index) => (
                 <Box
                     sx={{
                         background:
@@ -23,7 +22,6 @@ export const Homepage = () => {
                     <ProductCardSlider categoryId={item._id} name={item.name} />
                 </Box>
             ))}
-            <Footer/>
         </>
     );
 };

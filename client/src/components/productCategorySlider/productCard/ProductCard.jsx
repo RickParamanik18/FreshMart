@@ -14,11 +14,18 @@ import nonVegIcon from "../../../../public/non-veg.png";
 import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { StyledBox, StyledCard } from "./style";
+import { useNavigate } from "react-router-dom";
 
 export const ProductCard = (props) => {
+    const navigate = useNavigate();
     return (
         <StyledCard sx={{ minWidth: 250 }}>
-            <CardActionArea sx={{ marginBottom: "20px" }}>
+            <CardActionArea
+                sx={{ marginBottom: "20px" }}
+                onClick={() =>
+                    navigate(`/product/${props._id}`, { replace: true })
+                }
+            >
                 <CardMedia
                     component="img"
                     image={props.image}
