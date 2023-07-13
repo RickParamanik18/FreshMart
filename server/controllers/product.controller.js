@@ -21,8 +21,14 @@ const getSpecificCategoryProductsById = async (req, res) => {
     res.send(result);
 };
 
+const getAllCategory = async (req, res) => {
+    const result = await productService.getAllCategory();
+    res.send(result);
+};
+
 module.exports = {
     getAllProduct,
     getSingleProductById,
     getSpecificCategoryProductsById,
+    getAllCategory,
 };

@@ -53,8 +53,26 @@ const getSpecificCategoryProductsById = async (sub_category_id) => {
     }
 };
 
+const getAllCategory = async () => {
+    try {
+        const data = await productRepo.getAllCategory();
+        return {
+            data,
+            status: 200,
+            msg: "success",
+        };
+    } catch (err) {
+        return {
+            data: [],
+            status: 400,
+            msg: "error",
+        };
+    }
+};
+
 module.exports = {
     getAllProduct,
     getSingleProductById,
     getSpecificCategoryProductsById,
+    getAllCategory
 };
