@@ -1,7 +1,7 @@
 const con = require("../config/mongo.connection");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const subCategoryProductSchema = new Schema({
+const userSchema = new Schema({
     _id: {
         type: String,
         required: true,
@@ -10,30 +10,26 @@ const subCategoryProductSchema = new Schema({
         type: String,
         required: true,
     },
-    sub_category_id: {
-        type: String,
-        required: true,
-    },
-    veg_egg_non: {
-        type: String,
-        required: true,
-    },
     image: {
         type: String,
         required: true,
     },
-    rating: {
-        type: Number,
+    email: {
+        type: String,
         required: true,
     },
-    delivery_time_in_mins: {
-        type: Number,
+    password: {
+        type: String,
         required: true,
     },
-    item_variant: {
+    wishlist: {
         type: Object,
-        required: true,
-    }
+        default: [],
+    },
+    cart: {
+        type: Object,
+        default: [],
+    },
 });
 
-module.exports = con.model("subCategoryProducts", subCategoryProductSchema);
+module.exports = con.model("users", userSchema);

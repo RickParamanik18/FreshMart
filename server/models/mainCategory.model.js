@@ -1,7 +1,7 @@
 const con = require("../config/mongo.connection");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const userSchema = new Schema({
+const mainCategorySchema = new Schema({
     _id: {
         type: String,
         required: true,
@@ -16,4 +16,4 @@ const userSchema = new Schema({
     }
 });
 
-module.exports = con.model("mainCategories", userSchema);
+module.exports = con.model("mainCategories", mainCategorySchema);
