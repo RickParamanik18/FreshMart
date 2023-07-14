@@ -17,17 +17,34 @@ import { StyledGrid, StyledPaper } from "./style";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { getAllProducts } from "../../services/product.service";
 
 export const Nav = () => {
     const navigate = useNavigate();
     const [userOptionsVisibility, setUserOptionsVisibility] = useState(false);
+    const [allProducts, setAllProducts] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
 
     const toggleUserOptions = (val) => {
         typeof val === "boolean"
             ? setUserOptionsVisibility(val)
             : setUserOptionsVisibility((prev) => !prev);
+    };
+    useEffect(() => {
+        getAllProducts().then((data) => {
+            setAllProducts(data);
+        });
+    }, []);
+
+    const getSearchResults = (query) => {
+        if (query.trim().length) {
+            const results = allProducts.filter((item) =>
+                item.name.toLowerCase().includes(query.toLowerCase())
+            );
+            setSearchResults(results);
+        }
     };
 
     return (
@@ -59,9 +76,8 @@ export const Nav = () => {
                     <Autocomplete
                         freeSolo
                         disableClearable
-                        options={["result1", "result2"]}
+                        options={searchResults.map((item) => item.name)}
                         renderInput={(params) => (
-                            // console.log(params.inputProps.value),
                             <TextField
                                 {...params}
                                 placeholder={"Search"}
@@ -74,10 +90,21 @@ export const Nav = () => {
                                         </InputAdornment>
                                     ),
                                 }}
+                                //updating search results
+                                onChange={() =>
+                                    getSearchResults(params.inputProps.value)
+                                }
                             />
                         )}
                         fullWidth
                         size="small"
+                        //redirecting to the product page onoption select
+                        onChange={(e) => {
+                            const prodId = searchResults.filter(
+                                (item) => item.name === e.target.textContent
+                            )[0]._id;
+                            navigate(`/product/${prodId}`, { replace: true });
+                        }}
                     />
                 </Grid>
                 <Grid
