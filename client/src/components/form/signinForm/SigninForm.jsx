@@ -1,9 +1,11 @@
-import { Button } from "@mui/material";
+import { Button, Snackbar } from "@mui/material";
 import { TextField, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signin } from "../../../services/user.service";
 
 export const SigninForm = () => {
+    const navigate = useNavigate();
     const submitHandler = (e) => {
         e.preventDefault();
         const formData = {
@@ -11,7 +13,10 @@ export const SigninForm = () => {
             email: e.target.elements[2].value,
             password: e.target.elements[4].value,
         };
-        console.log(formData);
+        signin(formData).then((data) => {
+            alert(data.msg);
+            data.status == "200" && navigate("/");
+        });
     };
     const commonInputStyle = { marginBottom: "15px", width: "100%" };
     return (

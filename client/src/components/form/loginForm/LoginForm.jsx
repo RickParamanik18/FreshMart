@@ -1,16 +1,23 @@
 import { Button } from "@mui/material";
 import { TextField, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../../../services/user.service";
 
 export const LoginForm = () => {
+    const navigate = useNavigate();
+
     const submitHandler = (e) => {
         e.preventDefault();
         const formData = {
             email: e.target.elements[0].value,
             password: e.target.elements[2].value,
         };
-        console.log(formData);
+        login(formData).then((data) => {
+            alert(data.msg);
+            data.status == "200" && navigate("/");
+        });
+        // console.log(formData);
     };
 
     return (
