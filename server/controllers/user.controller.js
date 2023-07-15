@@ -18,4 +18,12 @@ const signin = async (req, res) => {
     res.send(result);
 };
 
-module.exports = { login, signin };
+const logout = async (req, res) => {
+    res.clearCookie("userData");
+    res.send({
+        status: 200,
+        msg: "logout successful",
+    });
+};
+
+module.exports = { login, signin, logout };
