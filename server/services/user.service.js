@@ -7,7 +7,6 @@ const login = async (params) => {
         data = {
             _id: data._id,
             name: data.name,
-            image: data.image,
             email: data.email,
             wishlist: data.wishlist,
             cart: data.cart,
@@ -43,7 +42,6 @@ const signin = async (params) => {
         data = {
             _id: data._id,
             name: data.name,
-            image: data.image,
             email: data.email,
             wishlist: data.wishlist,
             cart: data.cart,
