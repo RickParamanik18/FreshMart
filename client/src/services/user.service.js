@@ -5,6 +5,7 @@ export const signin = async (data) => {
         url: `${import.meta.env.VITE_APP_SERVER_API}user/signin`,
         method: "post",
         headers: data,
+        withCredentials: true,
     });
     return result.data;
 };
@@ -14,6 +15,7 @@ export const login = async (data) => {
         url: `${import.meta.env.VITE_APP_SERVER_API}user/login`,
         method: "get",
         headers: data,
+        withCredentials: true,
     });
     return result.data;
 };
