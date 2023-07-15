@@ -20,12 +20,15 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { getAllProducts } from "../../services/product.service";
+import useAuth from "../../hooks/useAuth";
+import { getInitials } from "../../utils/helper";
 
 export const Nav = () => {
     const navigate = useNavigate();
     const [userOptionsVisibility, setUserOptionsVisibility] = useState(false);
     const [allProducts, setAllProducts] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
+    const { isLoggedIn, userData } = useAuth();
 
     const toggleUserOptions = (val) => {
         typeof val === "boolean"
@@ -120,7 +123,7 @@ export const Nav = () => {
                         <>
                             <Tooltip title="My Wishlist">
                                 <Badge
-                                    badgeContent={1}
+                                    badgeContent={Number(userData.wishlist)}
                                     color="primary"
                                     sx={{ mx: 1.5 }}
                                 >
@@ -129,7 +132,7 @@ export const Nav = () => {
                             </Tooltip>
                             <Tooltip title="My Cart">
                                 <Badge
-                                    badgeContent={1}
+                                    badgeContent={Number(userData.cart)}
                                     color={"primary"}
                                     sx={{ mx: 1.5 }}
                                 >
@@ -137,13 +140,13 @@ export const Nav = () => {
                                 </Badge>
                             </Tooltip>
                             {/* isLoggedin */}
-                            {false ? (
-                                <Button variant="contained" sx={{ mx: 2 }}>
-                                    Login
-                                </Button>
-                            ) : (
+                            {isLoggedIn ? (
                                 <Button variant="outlined" sx={{ mx: 2 }}>
                                     Logout
+                                </Button>
+                            ) : (
+                                <Button variant="contained" sx={{ mx: 2 }}>
+                                    Login
                                 </Button>
                             )}
                         </>
@@ -158,9 +161,11 @@ export const Nav = () => {
                             >
                                 <Avatar
                                     onClick={toggleUserOptions}
-                                    sx={{ background: "red" }}
+                                    sx={{ background: "primary.light" }}
                                 >
-                                    A
+                                    {userData.name
+                                        ? getInitials(userData.name)
+                                        : "*"}
                                 </Avatar>
                                 <StyledPaper
                                     sx={{
@@ -175,7 +180,9 @@ export const Nav = () => {
                                     <Stack>
                                         <Tooltip title="My Wishlist">
                                             <Badge
-                                                badgeContent={1}
+                                                badgeContent={Number(
+                                                    userData.wishlist
+                                                )}
                                                 color="primary"
                                                 sx={{ my: 1 }}
                                             >
@@ -184,7 +191,9 @@ export const Nav = () => {
                                         </Tooltip>
                                         <Tooltip title="My Cart">
                                             <Badge
-                                                badgeContent={1}
+                                                badgeContent={Number(
+                                                    userData.cart
+                                                )}
                                                 color={"primary"}
                                                 sx={{ my: 1 }}
                                             >
@@ -192,15 +201,15 @@ export const Nav = () => {
                                             </Badge>
                                         </Tooltip>
                                         {/* isLoggedIn */}
-                                        {true ? (
-                                            <Tooltip title="Login">
-                                                <LoginOutlinedIcon
+                                        {isLoggedIn ? (
+                                            <Tooltip title="Logout">
+                                                <LogoutOutlinedIcon
                                                     sx={{ my: 1 }}
                                                 />
                                             </Tooltip>
                                         ) : (
-                                            <Tooltip title="Logout">
-                                                <LogoutOutlinedIcon
+                                            <Tooltip title="Login">
+                                                <LoginOutlinedIcon
                                                     sx={{ my: 1 }}
                                                 />
                                             </Tooltip>
