@@ -3,9 +3,13 @@ import { TextField, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import { Link, useNavigate } from "react-router-dom";
 import { signin } from "../../../services/user.service";
+import { authContext } from "../../../context/auth.context";
+import { useContext } from "react";
 
 export const SigninForm = () => {
     const navigate = useNavigate();
+    const { setAuthData } = useContext(authContext);
+
     const submitHandler = (e) => {
         e.preventDefault();
         const formData = {
@@ -15,7 +19,10 @@ export const SigninForm = () => {
         };
         signin(formData).then((data) => {
             alert(data.msg);
-            data.status == "200" && navigate("/");
+            if (data.status == "200") {
+                setAuthData();
+                navigate("/");
+            }
         });
     };
     const commonInputStyle = { marginBottom: "15px", width: "100%" };

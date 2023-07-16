@@ -1,10 +1,11 @@
 import { Navigate } from "react-router";
 import { AuthTemplate } from "../../components/authTemplate/authTemplate";
 import { SigninForm } from "../../components/form/signinForm/SigninForm";
-import useAuth from "../../hooks/useAuth";
+import { authContext } from "../../context/auth.context";
+import { useContext } from "react";
 
 export const Signin = () => {
-    const { isLoggedIn } = useAuth();
+    const { isLoggedIn } = useContext(authContext);
 
     return isLoggedIn ? (
         <Navigate to={"/"} />

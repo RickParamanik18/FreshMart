@@ -19,3 +19,13 @@ export const login = async (data) => {
     });
     return result.data;
 };
+
+export const logout = async (authorization) => {
+    const result = await axios({
+        url: `${import.meta.env.VITE_APP_SERVER_API}user/logout`,
+        method: "get",
+        headers: { authorization },
+        withCredentials: true,
+    });
+    return result.data;
+};

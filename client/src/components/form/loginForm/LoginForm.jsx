@@ -3,9 +3,12 @@ import { TextField, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../../services/user.service";
+import { authContext } from "../../../context/auth.context";
+import { useContext } from "react";
 
 export const LoginForm = () => {
     const navigate = useNavigate();
+    const { setAuthData } = useContext(authContext);
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -15,9 +18,11 @@ export const LoginForm = () => {
         };
         login(formData).then((data) => {
             alert(data.msg);
-            data.status == "200" && navigate("/");
+            if (data.status == "200") {
+                setAuthData();
+                navigate("/");
+            }
         });
-        // console.log(formData);
     };
 
     return (

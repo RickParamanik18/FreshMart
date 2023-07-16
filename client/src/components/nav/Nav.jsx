@@ -17,18 +17,20 @@ import { StyledGrid, StyledPaper } from "./style";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { getAllProducts } from "../../services/product.service";
-import useAuth from "../../hooks/useAuth";
 import { getInitials } from "../../utils/helper";
+import { logout } from "../../services/user.service";
+import { authContext } from "../../context/auth.context";
 
 export const Nav = () => {
     const navigate = useNavigate();
     const [userOptionsVisibility, setUserOptionsVisibility] = useState(false);
     const [allProducts, setAllProducts] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
-    const { isLoggedIn, userData } = useAuth();
+    const { isLoggedIn, userData, token, setAuthData } =
+        useContext(authContext);
 
     const toggleUserOptions = (val) => {
         typeof val === "boolean"
@@ -50,6 +52,14 @@ export const Nav = () => {
         }
     };
 
+    const logoutHandler = async () => {
+        const result = await logout(token);
+        alert(result.msg);
+        if (result.status == 200) {
+            setAuthData();
+            navigate("/");
+        }
+    };
     return (
         <StyledPaper>
             <StyledGrid container>
@@ -123,7 +133,11 @@ export const Nav = () => {
                         <>
                             <Tooltip title="My Wishlist">
                                 <Badge
-                                    badgeContent={Number(userData.wishlist)}
+                                    badgeContent={Number(
+                                        userData.wishlist
+                                            ? userData.wishlist
+                                            : 0
+                                    )}
                                     color="primary"
                                     sx={{ mx: 1.5 }}
                                 >
@@ -132,7 +146,9 @@ export const Nav = () => {
                             </Tooltip>
                             <Tooltip title="My Cart">
                                 <Badge
-                                    badgeContent={Number(userData.cart)}
+                                    badgeContent={Number(
+                                        userData.cart ? userData.cart : 0
+                                    )}
                                     color={"primary"}
                                     sx={{ mx: 1.5 }}
                                 >
@@ -141,11 +157,19 @@ export const Nav = () => {
                             </Tooltip>
                             {/* isLoggedin */}
                             {isLoggedIn ? (
-                                <Button variant="outlined" sx={{ mx: 2 }}>
+                                <Button
+                                    variant="outlined"
+                                    sx={{ mx: 2 }}
+                                    onClick={logoutHandler}
+                                >
                                     Logout
                                 </Button>
                             ) : (
-                                <Button variant="contained" sx={{ mx: 2 }}>
+                                <Button
+                                    variant="contained"
+                                    sx={{ mx: 2 }}
+                                    onClick={() => navigate("/login")}
+                                >
                                     Login
                                 </Button>
                             )}
@@ -182,6 +206,8 @@ export const Nav = () => {
                                             <Badge
                                                 badgeContent={Number(
                                                     userData.wishlist
+                                                        ? userData.wishlist
+                                                        : 0
                                                 )}
                                                 color="primary"
                                                 sx={{ my: 1 }}
@@ -193,6 +219,8 @@ export const Nav = () => {
                                             <Badge
                                                 badgeContent={Number(
                                                     userData.cart
+                                                        ? userData.cart
+                                                        : 0
                                                 )}
                                                 color={"primary"}
                                                 sx={{ my: 1 }}
@@ -200,15 +228,22 @@ export const Nav = () => {
                                                 <ShoppingCartOutlinedIcon />
                                             </Badge>
                                         </Tooltip>
-                                        {/* isLoggedIn */}
                                         {isLoggedIn ? (
-                                            <Tooltip title="Logout">
+                                            <Tooltip
+                                                title="Logout"
+                                                onClick={logoutHandler}
+                                            >
                                                 <LogoutOutlinedIcon
                                                     sx={{ my: 1 }}
                                                 />
                                             </Tooltip>
                                         ) : (
-                                            <Tooltip title="Login">
+                                            <Tooltip
+                                                title="Login"
+                                                onClick={() =>
+                                                    navigate("/login")
+                                                }
+                                            >
                                                 <LoginOutlinedIcon
                                                     sx={{ my: 1 }}
                                                 />
