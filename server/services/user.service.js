@@ -62,5 +62,35 @@ const signin = async (params) => {
         };
     }
 };
+const cart = async (params) => {
+    try {
+        let data = await userRepo.cart(params);
+        data = {
+            _id: data._id,
+            name: data.name,
+            email: data.email,
+            wishlist: data.wishlist,
+            cart: data.cart,
+        };
 
-module.exports = { login, signin };
+        const token = jwt.sign(data, process.env.JWT_SECRET);
+
+        return {
+            status: 200,
+            msg:
+                params.operation == "add"
+                    ? "product added"
+                    : params.operation == "remove"
+                    ? "product removed"
+                    : "product updated",
+            token,
+        };
+    } catch (err) {
+        console.log(err);
+        return {
+            status: 400,
+            msg: "failed",
+        };
+    }
+};
+module.exports = { login, signin, cart };

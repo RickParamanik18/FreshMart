@@ -19,8 +19,27 @@ const signin = async (params) => {
     result = await newUser.save();
     return result;
 };
+const cart = async ({ operation, product = null, userData, path }) => {
+    const currentCart = userData.cart;
+
+    const updatedCart = currentCart.filter((item) => item._id !== product._id);
+    if (operation !== "remove") updatedCart.push(product);
+
+    await users.updateOne(
+        { email: userData.email },
+        {
+            $set:
+                path === "/cart"
+                    ? { cart: updatedCart }
+                    : { wishlist: updatedCart },
+        }
+    );
+    const result = users.findOne({ email: userData.email });
+    return result;
+};
 
 module.exports = {
     login,
     signin,
+    cart,
 };

@@ -26,4 +26,21 @@ const logout = async (req, res) => {
     });
 };
 
-module.exports = { login, signin, logout };
+const cart = async (req, res) => {
+    const path = req.path;
+    const headerParams = req.headers;
+    const { userData, product, operation } = headerParams;
+
+    const result = await userService.cart({
+        userData,
+        product,
+        operation,
+        path,
+    });
+
+    result.status == 200 &&
+        res.cookie("userData", result.token, { maxAge: 86400000 });
+    res.send(result);
+};
+
+module.exports = { login, signin, logout, cart };
