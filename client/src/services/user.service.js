@@ -29,3 +29,22 @@ export const logout = async (authorization) => {
     });
     return result.data;
 };
+
+export const cart = async (operation, product, authorization) => {
+    const result = await axios({
+        url: `${import.meta.env.VITE_APP_SERVER_API}user/cart`,
+        method: "get",
+        headers: { operation, product: JSON.stringify(product), authorization },
+        withCredentials: true,
+    });
+    return result.data;
+};
+export const wishlist = async (operation, product, authorization) => {
+    const result = await axios({
+        url: `${import.meta.env.VITE_APP_SERVER_API}user/wishlist`,
+        method: "get",
+        headers: { operation, product: JSON.stringify(product), authorization },
+        withCredentials: true,
+    });
+    return result.data;
+};

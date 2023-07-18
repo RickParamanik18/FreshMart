@@ -15,9 +15,55 @@ import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutl
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { StyledBox, StyledCard } from "./style";
 import { useNavigate } from "react-router-dom";
+import { cart, wishlist } from "../../../services/user.service";
+import { authContext } from "../../../context/auth.context";
+import { useContext, useEffect, useState } from "react";
 
 export const ProductCard = (props) => {
     const navigate = useNavigate();
+    const [isInWishlist, setIsInWishlist] = useState(null);
+    const [isInCart, setIsInCart] = useState(null);
+    const { token, isLoggedIn, userData, setAuthData } =
+        useContext(authContext);
+
+    const toCart = async (operation) => {
+        try {
+            if (isLoggedIn) {
+                const result = await cart(operation, props, token);
+                if (result.status == 200) setAuthData();
+            } else {
+                navigate("/login");
+            }
+        } catch {
+            alert("something wet wrong");
+        }
+    };
+    const toWishlist = async (operation) => {
+        try {
+            if (isLoggedIn) {
+                const result = await wishlist(operation, props, token);
+                if (result.status == 200) setAuthData();
+            } else {
+                navigate("/login");
+            }
+        } catch (err) {
+            console.log(err);
+            alert("something went wrong");
+        }
+    };
+    useEffect(() => {
+        setIsInWishlist(
+            userData.wishlist
+                ? userData.wishlist.map((item) => item._id).includes(props._id)
+                : null
+        );
+        setIsInCart(
+            userData.cart
+                ? userData.cart.map((item) => item._id).includes(props._id)
+                : null
+        );
+    }, [userData]);
+
     return (
         <StyledCard sx={{ minWidth: 250 }}>
             <CardActionArea
@@ -70,16 +116,18 @@ export const ProductCard = (props) => {
                 }}
             >
                 <Button
-                    variant="outlined"
+                    variant={isInCart ? "contained" : "outlined"}
                     startIcon={<AddShoppingCartOutlinedIcon />}
+                    onClick={() => toCart(isInCart ? "remove" : "add")}
                 >
-                    add
+                    {isInCart ? "remove" : "add"}
                 </Button>
                 <Button
-                    variant="outlined"
+                    variant={isInWishlist ? "contained" : "outlined"}
                     startIcon={<FavoriteBorderOutlinedIcon />}
+                    onClick={() => toWishlist(isInWishlist ? "remove" : "add")}
                 >
-                    add
+                    {isInWishlist ? "remove" : "add"}
                 </Button>
             </CardActions>
         </StyledCard>

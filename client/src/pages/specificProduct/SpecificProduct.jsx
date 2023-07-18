@@ -10,7 +10,7 @@ import {
     Typography,
 } from "@mui/material";
 import vegIcon from "../../../public/veg.png";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import ReactImageMagnify from "react-image-magnify";
 import nonVegIcon from "../../../public/non-veg.png";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -19,15 +19,63 @@ import { getAllProducts } from "../../services/product.service";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
 import { ProductCardSlider } from "../../components/productCategorySlider/ProductCategorySlider";
+import { authContext } from "../../context/auth.context";
+import { cart, wishlist } from "../../services/user.service";
+import { useNavigate } from "react-router-dom";
 
 export const SpecificProduct = () => {
+    const navigate = useNavigate();
     const imageRef = useRef(null);
     const [largeImgDim, setLargeImgDim] = useState({});
     const [currentProduct, setCurrentProduct] = useState({});
     const [quantity, setQuantity] = useState("");
     const [units, setUnits] = useState(1);
     const [urlId, setUrlId] = useState(window.location.pathname.substring(9));
-
+    const [isInWishlist, setIsInWishlist] = useState(null);
+    const [isInCart, setIsInCart] = useState(null);
+    const { token, isLoggedIn, userData, setAuthData } =
+        useContext(authContext);
+    const toCart = async (operation) => {
+        try {
+            if (isLoggedIn) {
+                const result = await cart(operation, currentProduct, token);
+                if (result.status == 200) setAuthData();
+            } else {
+                navigate("/login");
+            }
+        } catch {
+            alert("something wet wrong");
+        }
+    };
+    const toWishlist = async (operation) => {
+        try {
+            if (isLoggedIn) {
+                const result = await wishlist(operation, currentProduct, token);
+                if (result.status == 200) setAuthData();
+            } else {
+                navigate("/login");
+            }
+        } catch (err) {
+            console.log(err);
+            alert("something went wrong");
+        }
+    };
+    useEffect(() => {
+        setIsInWishlist(
+            userData.wishlist
+                ? userData.wishlist
+                      .map((item) => item._id)
+                      .includes(currentProduct._id)
+                : null
+        );
+        setIsInCart(
+            userData.cart
+                ? userData.cart
+                      .map((item) => item._id)
+                      .includes(currentProduct._id)
+                : null
+        );
+    }, [userData]);
     // for setting magnified image dim
     useEffect(() => {
         window.onload = () => {
@@ -165,19 +213,25 @@ export const SpecificProduct = () => {
                         </Typography>
                         <Box my={5}>
                             <Button
-                                variant="outlined"
+                                variant={isInCart ? "contained" : "outlined"}
                                 startIcon={<AddShoppingCartOutlinedIcon />}
                                 size="large"
+                                onClick={() =>
+                                    toCart(isInCart ? "remove" : "add")
+                                }
                             >
-                                add
+                                {isInCart ? "remove" : "add"}
                             </Button>
                             <Button
-                                variant="outlined"
+                                variant={isInWishlist ? "contained" : "outlined"}
                                 startIcon={<FavoriteBorderOutlinedIcon />}
                                 sx={{ marginLeft: "22px" }}
                                 size="large"
+                                onClick={() =>
+                                    toWishlist(isInWishlist ? "remove" : "add")
+                                }
                             >
-                                add
+                                {isInWishlist ? "remove" : "add"}
                             </Button>
                         </Box>
                     </Grid>

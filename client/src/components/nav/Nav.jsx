@@ -135,11 +135,12 @@ export const Nav = () => {
                                 <Badge
                                     badgeContent={Number(
                                         userData.wishlist
-                                            ? userData.wishlist
+                                            ? userData.wishlist.length
                                             : 0
                                     )}
                                     color="primary"
                                     sx={{ mx: 1.5 }}
+                                    onClick={()=>navigate('/wishlist')}
                                 >
                                     <FavoriteBorderIcon />
                                 </Badge>
@@ -147,10 +148,11 @@ export const Nav = () => {
                             <Tooltip title="My Cart">
                                 <Badge
                                     badgeContent={Number(
-                                        userData.cart ? userData.cart : 0
+                                        userData.cart ? userData.cart.length : 0
                                     )}
                                     color={"primary"}
                                     sx={{ mx: 1.5 }}
+                                    onClick={()=>navigate('/cart')}
                                 >
                                     <ShoppingCartOutlinedIcon />
                                 </Badge>
@@ -207,10 +209,12 @@ export const Nav = () => {
                                                 badgeContent={Number(
                                                     userData.wishlist
                                                         ? userData.wishlist
+                                                              .length
                                                         : 0
                                                 )}
                                                 color="primary"
                                                 sx={{ my: 1 }}
+                                                onClick={()=>navigate('/wishlist')}
                                             >
                                                 <FavoriteBorderIcon />
                                             </Badge>
@@ -219,11 +223,12 @@ export const Nav = () => {
                                             <Badge
                                                 badgeContent={Number(
                                                     userData.cart
-                                                        ? userData.cart
+                                                        ? userData.cart.length
                                                         : 0
                                                 )}
                                                 color={"primary"}
                                                 sx={{ my: 1 }}
+                                                onClick={()=>navigate('/cart')}
                                             >
                                                 <ShoppingCartOutlinedIcon />
                                             </Badge>

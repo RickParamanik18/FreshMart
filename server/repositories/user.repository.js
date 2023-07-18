@@ -21,6 +21,7 @@ const signin = async (params) => {
 };
 const cart = async ({ operation, product = null, userData, path }) => {
     const currentCart = userData.cart;
+    product = JSON.parse(product);
 
     const updatedCart = currentCart.filter((item) => item._id !== product._id);
     if (operation !== "remove") updatedCart.push(product);
