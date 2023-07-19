@@ -223,7 +223,9 @@ export const SpecificProduct = () => {
                                 {isInCart ? "remove" : "add"}
                             </Button>
                             <Button
-                                variant={isInWishlist ? "contained" : "outlined"}
+                                variant={
+                                    isInWishlist ? "contained" : "outlined"
+                                }
                                 startIcon={<FavoriteBorderOutlinedIcon />}
                                 sx={{ marginLeft: "22px" }}
                                 size="large"

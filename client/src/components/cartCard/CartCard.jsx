@@ -1,63 +1,40 @@
-import {
-    Typography,
-    Button,
-    TextField,
-    MenuItem,
-    Grid,
-    Divider,
-} from "@mui/material";
+import { Typography, TextField, MenuItem, Grid, Divider } from "@mui/material";
 import { Box } from "@mui/system";
-import pic from "../../../public/banner.png";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
+import { cart } from "../../services/user.service";
+import { authContext } from "../../context/auth.context";
 
-export const CartCard = () => {
-    const props = {
-        _id: "2",
-        name: "Onion (Pyaz)",
-        sub_category_id: "SC_1",
-        veg_egg_non: "veg",
-        image: "https://res.cloudinary.com/dcu6sympq/image/upload/v1683920213/grocery/fresh_vegetables/2_g4ecfh.webp",
-        rating: 3.5,
-        delivery_time_in_mins: 21,
-        item_variant: [
-            {
-                _id: "V_2",
-                unit: "1 kg",
-                price: 19,
-                in_stock: true,
-                default: true,
-            },
-            {
-                _id: "V_3",
-                unit: "2 kg",
-                price: 38,
-                in_stock: true,
-                default: false,
-            },
-            {
-                _id: "V_4",
-                unit: "5 kg",
-                price: 89,
-                in_stock: false,
-                default: false,
-            },
-        ],
-    };
-
+export const CartCard = (props) => {
     const [quantity, setQuantity] = useState("");
     const [units, setUnits] = useState(1);
+    const { token, isLoggedIn, userData, setAuthData } =
+        useContext(authContext);
 
     const quantityCahngeHandler = (e) => {
         setQuantity(+e.target.value);
     };
 
+    const toCart = async (operation) => {
+        try {
+            const result = await cart(operation, props, token);
+            if (result.status == 200) setAuthData();
+        } catch {
+            alert("something wet wrong");
+        }
+    };
+
     useEffect(() => {
-        //api call
         setQuantity(props.item_variant?.[0]?.price);
     }, []);
 
     return (
         <Box>
+            <Divider sx={{ margin: "10px 0px" }} />
+            <ClearOutlinedIcon
+                onClick={() => toCart("remove")}
+                sx={{ cursor: "pointer" }}
+            />
             <Grid container>
                 <Grid item container xs={10}>
                     <Grid item xs={12} sm={6}>
@@ -113,7 +90,6 @@ export const CartCard = () => {
                     }`}</Typography>
                 </Grid>
             </Grid>
-            <Divider sx={{ margin: "10px 0px" }} />
         </Box>
     );
 };
