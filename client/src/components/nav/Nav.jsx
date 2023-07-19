@@ -43,6 +43,8 @@ export const Nav = () => {
         });
     }, []);
 
+    const cursor = { cursor: "pointer" };
+
     const getSearchResults = (query) => {
         if (query.trim().length) {
             const results = allProducts.filter((item) =>
@@ -139,8 +141,8 @@ export const Nav = () => {
                                             : 0
                                     )}
                                     color="primary"
-                                    sx={{ mx: 1.5 }}
-                                    onClick={()=>navigate('/wishlist')}
+                                    sx={{ mx: 1.5, ...cursor }}
+                                    onClick={() => navigate("/wishlist")}
                                 >
                                     <FavoriteBorderIcon />
                                 </Badge>
@@ -151,8 +153,8 @@ export const Nav = () => {
                                         userData.cart ? userData.cart.length : 0
                                     )}
                                     color={"primary"}
-                                    sx={{ mx: 1.5 }}
-                                    onClick={()=>navigate('/cart')}
+                                    sx={{ mx: 1.5, ...cursor }}
+                                    onClick={() => navigate("/cart")}
                                 >
                                     <ShoppingCartOutlinedIcon />
                                 </Badge>
@@ -161,7 +163,7 @@ export const Nav = () => {
                             {isLoggedIn ? (
                                 <Button
                                     variant="outlined"
-                                    sx={{ mx: 2 }}
+                                    sx={{ mx: 2, ...cursor }}
                                     onClick={logoutHandler}
                                 >
                                     Logout
@@ -169,7 +171,7 @@ export const Nav = () => {
                             ) : (
                                 <Button
                                     variant="contained"
-                                    sx={{ mx: 2 }}
+                                    sx={{ mx: 2, ...cursor }}
                                     onClick={() => navigate("/login")}
                                 >
                                     Login
@@ -213,8 +215,10 @@ export const Nav = () => {
                                                         : 0
                                                 )}
                                                 color="primary"
-                                                sx={{ my: 1 }}
-                                                onClick={()=>navigate('/wishlist')}
+                                                sx={{ my: 1, ...cursor }}
+                                                onClick={() =>
+                                                    navigate("/wishlist")
+                                                }
                                             >
                                                 <FavoriteBorderIcon />
                                             </Badge>
@@ -227,8 +231,10 @@ export const Nav = () => {
                                                         : 0
                                                 )}
                                                 color={"primary"}
-                                                sx={{ my: 1 }}
-                                                onClick={()=>navigate('/cart')}
+                                                sx={{ my: 1, ...cursor }}
+                                                onClick={() =>
+                                                    navigate("/cart")
+                                                }
                                             >
                                                 <ShoppingCartOutlinedIcon />
                                             </Badge>
@@ -239,18 +245,19 @@ export const Nav = () => {
                                                 onClick={logoutHandler}
                                             >
                                                 <LogoutOutlinedIcon
-                                                    sx={{ my: 1 }}
+                                                    sx={{ my: 1, ...cursor }}
                                                 />
                                             </Tooltip>
                                         ) : (
                                             <Tooltip
                                                 title="Login"
+                                                sx={cursor}
                                                 onClick={() =>
                                                     navigate("/login")
                                                 }
                                             >
                                                 <LoginOutlinedIcon
-                                                    sx={{ my: 1 }}
+                                                    sx={{ my: 1, ...cursor }}
                                                 />
                                             </Tooltip>
                                         )}
