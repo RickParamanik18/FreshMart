@@ -29,7 +29,15 @@ export const ProductCard = (props) => {
     const toCart = async (operation) => {
         try {
             if (isLoggedIn) {
-                const result = await cart(operation, props, token);
+                const result = await cart(
+                    operation,
+                    {
+                        _id: props._id,
+                        item_variant: props.item_variant[0],
+                        units: 1,
+                    },
+                    token
+                );
                 if (result.status == 200) setAuthData();
             } else {
                 navigate("/login");
@@ -41,7 +49,15 @@ export const ProductCard = (props) => {
     const toWishlist = async (operation) => {
         try {
             if (isLoggedIn) {
-                const result = await wishlist(operation, props, token);
+                const result = await wishlist(
+                    operation,
+                    {
+                        _id: props._id,
+                        item_variant: props.item_variant[0],
+                        units: 1,
+                    },
+                    token
+                );
                 if (result.status == 200) setAuthData();
             } else {
                 navigate("/login");

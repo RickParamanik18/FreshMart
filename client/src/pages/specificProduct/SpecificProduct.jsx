@@ -38,7 +38,23 @@ export const SpecificProduct = () => {
     const toCart = async (operation) => {
         try {
             if (isLoggedIn) {
-                const result = await cart(operation, currentProduct, token);
+                const result = await cart(
+                    operation,
+                    {
+                        _id: currentProduct._id,
+                        item_variant: currentProduct?.item_variant?.reduce(
+                            (acc, cur) => {
+                                if (cur.price == quantity) return cur;
+                                else return acc;
+                            },
+                            currentProduct?.item_variant[0]
+                        ),
+                        units: units,
+                    },
+                    token
+                );
+                setQuantity(currentProduct.item_variant[0].price);
+                setUnits(1);
                 if (result.status == 200) setAuthData();
             } else {
                 navigate("/login");
@@ -50,7 +66,23 @@ export const SpecificProduct = () => {
     const toWishlist = async (operation) => {
         try {
             if (isLoggedIn) {
-                const result = await wishlist(operation, currentProduct, token);
+                const result = await wishlist(
+                    operation,
+                    {
+                        _id: currentProduct._id,
+                        item_variant: currentProduct?.item_variant?.reduce(
+                            (acc, cur) => {
+                                if (cur.price == quantity) return cur;
+                                else return acc;
+                            },
+                            currentProduct?.item_variant[0]
+                        ),
+                        units: units,
+                    },
+                    token
+                );
+                setQuantity(currentProduct.item_variant[0].price);
+                setUnits(1);
                 if (result.status == 200) setAuthData();
             } else {
                 navigate("/login");

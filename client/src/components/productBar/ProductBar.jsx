@@ -26,7 +26,15 @@ export const ProductBar = (props) => {
     const toCart = async (operation) => {
         try {
             if (isLoggedIn) {
-                const result = await cart(operation, props, token);
+                const result = await cart(
+                    operation,
+                    {
+                        _id: props._id,
+                        item_variant: props.default.item_variant,
+                        units: props.default.units,
+                    },
+                    token
+                );
                 if (result.status == 200) setAuthData();
             } else {
                 navigate("/login");
@@ -40,7 +48,15 @@ export const ProductBar = (props) => {
     const toWishlist = async (operation) => {
         try {
             if (isLoggedIn) {
-                const result = await wishlist(operation, props, token);
+                const result = await wishlist(
+                    operation,
+                    {
+                        _id: props._id,
+                        item_variant: props.item_variant[0],
+                        units: 1,
+                    },
+                    token
+                );
                 if (result.status == 200) setAuthData();
             } else {
                 navigate("/login");
@@ -71,7 +87,16 @@ export const ProductBar = (props) => {
                     ></ImageContainer>
                 </StyledBox>
                 <StyledBox flexDirection={"column"}>
-                    <Typography variant="caption">{props.name}</Typography>
+                    <Box width={"100%"}>
+                        <Typography variant="caption">{props.name}</Typography>
+                        <br />
+                        <Typography variant="caption">{`${
+                            props.default.item_variant.unit
+                        } X ${props.default.units} = Rs. ${
+                            props.default.item_variant.price *
+                            props.default.units
+                        }`}</Typography>
+                    </Box>
                     <Box width={"100%"}>
                         <Rating value={Math.floor(props.rating)} readOnly />
                     </Box>

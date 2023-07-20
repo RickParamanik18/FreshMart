@@ -7,7 +7,7 @@ import { authContext } from "../../context/auth.context";
 
 export const CartCard = (props) => {
     const [quantity, setQuantity] = useState("");
-    const [units, setUnits] = useState(1);
+    const [units, setUnits] = useState(props.default.units);
     const { token, isLoggedIn, userData, setAuthData } =
         useContext(authContext);
 
@@ -25,8 +25,9 @@ export const CartCard = (props) => {
     };
 
     useEffect(() => {
-        setQuantity(props.item_variant?.[0]?.price);
+        setQuantity(props.default.item_variant.price);
     }, []);
+
 
     return (
         <Box>
@@ -77,7 +78,7 @@ export const CartCard = (props) => {
                             type="number"
                             sx={{ width: "80px" }}
                             size="small"
-                            defaultValue={1}
+                            defaultValue={units}
                             InputProps={{ inputProps: { min: 1, max: 5 } }}
                             style={{ marginLeft: "5px" }}
                             onChange={(e) => setUnits(+e.target.value)}
