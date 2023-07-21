@@ -20,22 +20,22 @@ const signin = async (params) => {
     return result;
 };
 const cart = async ({ operation, product = null, userData, path }) => {
-    const currentCart = userData.cart;
+    const currentList = path === "/cart" ? userData.cart : userData.wishlist;
     product = JSON.parse(product);
 
-    const updatedCart = currentCart.filter((item) => item._id !== product._id);
-    if (operation !== "remove") updatedCart.push(product);
+    const updatedList = currentList.filter((item) => item._id !== product._id);
+    if (operation !== "remove") updatedList.push(product);
 
     await users.updateOne(
         { email: userData.email },
         {
             $set:
                 path === "/cart"
-                    ? { cart: updatedCart }
-                    : { wishlist: updatedCart },
+                    ? { cart: updatedList }
+                    : { wishlist: updatedList },
         }
     );
-    const result = users.findOne({ email: userData.email });
+    const result = await users.findOne({ email: userData.email });
     return result;
 };
 
