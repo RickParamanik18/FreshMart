@@ -9,14 +9,14 @@ app.use(
     cors({
         origin: true,
         credentials: true,
-    })
+    }),
 );
 app.use(cookieParser());
 app.use("/api", router);
 
 app.listen(
     process.env.PORT,
-    console.log(`LISTENING TO PORT ${process.env.PORT}`)
+    console.log(`LISTENING TO PORT ${process.env.PORT}`),
 );
 
 app.get("/", (req, res) => {
